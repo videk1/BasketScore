@@ -1,0 +1,7 @@
+{
+  "name": "basket-score",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
