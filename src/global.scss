@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,56 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.flex-center-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.font-size-xl {
+  font-size: 300% !important;
+}
+
+.top-right-item {
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.right-float {
+  position: relative;
+  z-index: 99;
+  float: right;
+}
+
+.flex-end-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+small {
+  color: grey;
+}
+
+input {
+  padding: 0 !important;
+}
+
+ion-button button {
+  padding: 0 !important;
+}
+
+ion-card-header {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+ion-card-content {
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+}

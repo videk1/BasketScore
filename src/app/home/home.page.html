@@ -4,45 +4,61 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Home
+      Scores
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card class="welcome-card">
-    <img src="/assets/shapes.svg" alt=""/>
-    <ion-card-header>
-      <ion-card-subtitle>Get Started</ion-card-subtitle>
-      <ion-card-title>Welcome to Ionic</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>
-        Now that your app has been created, you'll want to start building out features
-        and components. Check out some of the resources below for next steps.
-      </p>
-    </ion-card-content>
-  </ion-card>
+<ion-content fullscreen>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openAddScore()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-list>
+    <!-- <ion-list-header>
+      Finished scores
+    </ion-list-header> -->
 
-  <ion-list lines="none">
-    <ion-list-header>
-      <ion-label>Resources</ion-label>
-    </ion-list-header>
-    <ion-item href="https://ionicframework.com/docs/">
-      <ion-icon slot="start" color="medium" name="book"></ion-icon>
-      <ion-label>Ionic Documentation</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-      <ion-icon slot="start" color="medium" name="build"></ion-icon>
-      <ion-label>Scaffold Out Your App</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/layout/structure">
-      <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-      <ion-label>Change Your App Layout</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/theming/basics">
-      <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-      <ion-label>Theme Your App</ion-label>
-    </ion-item>
+    <ion-item-sliding
+      [routerLink]="'/score/' + score.id"
+      routerDirection="forward"
+      *ngFor="let score of scores"
+    >
+      <ion-item button="true" detail="true" detail-icon-color="primary">
+        <ion-avatar slot="start" class="flex-center-column">
+          <span
+            [ngClass]="score.firstTeam.score > score.secondTeam.score ? 'highlight-score' : ''"
+            >{{score.firstTeam.score}}</span
+          >
+          <span
+            [ngClass]="score.secondTeam.score > score.firstTeam.score ? 'highlight-score' : ''"
+            >{{score.secondTeam.score}}</span
+          >
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <span
+              [ngClass]="score.firstTeam.score > score.secondTeam.score ? 'highlight-score' : ''"
+              >{{score.firstTeam.name}}</span
+            >
+            :
+            <span
+              [ngClass]="score.secondTeam.score > score.firstTeam.score ? 'highlight-score' : ''"
+              >{{score.secondTeam.name}}</span
+            >
+          </h2>
+          <p>at {{score.createdDate}}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option
+          (click)="deleteScore(score.id)"
+          color="danger"
+          size="large"
+          ><ion-icon name="trash" size="large"></ion-icon
+        ></ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

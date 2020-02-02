@@ -1,7 +1,8 @@
 {
   "name": "basket-score",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

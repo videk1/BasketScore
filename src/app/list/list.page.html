@@ -1,27 +1,234 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      List
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content fullscreen *ngIf="scoreData">
+  <ion-card>
+    <ion-button
+      class="right-float"
+      fill="clear"
+      (click)="openNameEdit()"
+      size="small"
+    >
+      <ion-icon name="create"> </ion-icon>
+    </ion-button>
+    <ion-card-content>
+      <p>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-text-center"
+              >{{scoreData.firstTeam.name}}</ion-col
+            >
+            <ion-col class="ion-text-center"
+              >{{scoreData.secondTeam.name}}</ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-button
+      class="right-float"
+      fill="clear"
+      (click)="openScoreEdit()"
+      size="small"
+    >
+      <ion-icon name="create"> </ion-icon>
+    </ion-button>
+    <ion-card-content>
+      <h1 class="font-size-xl">
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-text-center"
+              >{{scoreData.firstTeam.score}}</ion-col
+            >
+            <ion-col class="ion-text-center"
+              >{{scoreData.secondTeam.score}}</ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </h1>
+    </ion-card-content>
+  </ion-card>
 
-<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{item.title}}
-      <div class="item-note" slot="end">
-        {{item.note}}
+  <div class="flex-end-row">
+    <small>SHOW PLAYERS</small>
+    <ion-toggle
+      [(ngModel)]="scoreData.showPlayers"
+      (ionChange)="updateScoreData()"
+    ></ion-toggle>
+  </div>
+  <ion-card *ngIf="!scoreData.showPlayers">
+    <ion-card-content>
+      <p>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-text-center"
+              >{{scoreData.firstTeam.name}}</ion-col
+            >
+            <ion-col class="ion-text-center"
+              >{{scoreData.secondTeam.name}}</ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </p>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-button size="large" (click)="score('first', 1)"
+                    >+ 1</ion-button
+                  >
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button size="large" (click)="score('first', 2)"
+                    >+ 2</ion-button
+                  >
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button size="large" (click)="score('first', 3)"
+                    >+ 3</ion-button
+                  >
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-button size="large" (click)="score('second', 1)"
+                    >+ 1</ion-button
+                  >
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button size="large" (click)="score('second', 2)"
+                    >+ 2</ion-button
+                  >
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button size="large" (click)="score('second', 3)"
+                    >+ 3</ion-button
+                  >
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="scoreData.showPlayers">
+    <ion-card-header>
+      <div style="display: flex; justify-content: space-between;">
+        <p>{{scoreData.firstTeam.name}}</p>
+        <ion-button
+          class=""
+          fill="clear"
+          (click)="showAddPlayer = !showAddPlayer;"
+          size="small"
+        >
+          <ion-icon name="add"> </ion-icon>
+        </ion-button>
       </div>
-    </ion-item>
-  </ion-list>
-  <!--
-    <div *ngIf="selectedItem" padding>
-      You navigated here from <b>{{selectedItem.title }}</b>
-    </div>
-  -->
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="scoreData.firstTeam.players.length > 0">
+        <div
+          style="display: flex; flex-direction: row; justify-content: space-between;"
+          *ngFor="let member of scoreData.firstTeam.players"
+        >
+          <div style="line-height: 0rem;">
+            <p>{{member.name}}</p>
+            <small>Points: {{member.points}}</small>
+          </div>
+          <div>
+            <ion-button size="small" (click)="scorePlayer(member, 'first', 1)"
+              >+ 1</ion-button
+            >
+            <ion-button size="small" (click)="scorePlayer(member, 'first', 2)"
+              >+ 2</ion-button
+            >
+            <ion-button size="small" (click)="scorePlayer(member, 'first', 3)"
+              >+ 3</ion-button
+            >
+          </div>
+        </div>
+      </ion-list>
+      <div style="display: flex;" *ngIf="showAddPlayer">
+        <ion-input
+          maxlength="20"
+          placeholder="Name your player"
+          [(ngModel)]="addPlayerName"
+        ></ion-input>
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="addPlayer('first')"
+          [disabled]="!addPlayerName"
+          >+ Add</ion-button
+        >
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="scoreData.showPlayers">
+    <ion-card-header>
+      <div style="display: flex; justify-content: space-between;">
+        <p>{{scoreData.secondTeam.name}}</p>
+        <ion-button
+          class=""
+          fill="clear"
+          (click)="showAddPlayer2 = !showAddPlayer2;"
+          size="small"
+        >
+          <ion-icon name="add"> </ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="scoreData.secondTeam.players.length > 0">
+        <div
+          style="display: flex; flex-direction: row; justify-content: space-between;"
+          *ngFor="let member of scoreData.secondTeam.players"
+        >
+          <div style="line-height: 0rem;">
+            <p>{{member.name}}</p>
+            <small>Points: {{member.points}}</small>
+          </div>
+          <div>
+            <ion-button size="small" (click)="scorePlayer(member, 'second', 1)"
+              >+ 1</ion-button
+            >
+            <ion-button size="small" (click)="scorePlayer(member, 'second', 2)"
+              >+ 2</ion-button
+            >
+            <ion-button size="small" (click)="scorePlayer(member, 'second', 3)"
+              >+ 3</ion-button
+            >
+          </div>
+        </div>
+      </ion-list>
+      <div style="display: flex;" *ngIf="showAddPlayer2">
+        <ion-input
+          maxlength="20"
+          placeholder="Name your player"
+          [(ngModel)]="addPlayerName2"
+        ></ion-input>
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="addPlayer('second')"
+          [disabled]="!addPlayerName2"
+          >+ Add</ion-button
+        >
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
